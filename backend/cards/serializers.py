@@ -11,8 +11,8 @@ class CarteVirtuelleSerializer(serializers.ModelSerializer):
         model = CarteVirtuelle
         fields = ['id', 'numeroCart', 'masked_numero', 'cvv2', 'dateExpiration', 
                  'dateCreation', 'utilisateur', 'utilisateur_name', 'card_type', 
-                 'card_name', 'status', 'balance', 'credit_limit']
-        read_only_fields = ['id', 'numeroCart', 'cvv2', 'dateExpiration', 'dateCreation']
+                 'card_category', 'card_name', 'status', 'balance', 'credit_limit']
+        read_only_fields = ['id', 'numeroCart', 'cvv2', 'dateExpiration', 'dateCreation', 'card_category']
     
     def get_masked_numero(self, obj):
         """Return masked card number (only last 4 digits visible)"""
@@ -142,16 +142,18 @@ class CardApprovalSerializer(serializers.ModelSerializer):
         instance.reviewed_at = timezone.now()
         instance.reviewed_by = self.context['request'].user
         
-        # If approved, create the actual card
+        # If approved, create the actual card with proper generation
         if instance.status == 'approved' and not instance.approved_card:
-            card = CarteVirtuelle.objects.create(
-                utilisateur=instance.user,
-                card_type=instance.card_type,
-                card_name=instance.card_name,
-                credit_limit=instance.requested_limit,
-                status='active'  # Automatically activate approved cards
-            )
+            # Use the new card generation method
+            card = CarteVirtuelle.create_from_request(instance, self.context['request'].user)
             instance.approved_card = card
+            
+            print(f"✅ Card generated successfully:")
+            print(f"   Card Number: {card.numeroCart}")
+            print(f"   CVV: {card.cvv2}")
+            print(f"   Category: {card.card_category}")
+            print(f"   Expiry: {card.dateExpiration}")
+            print(f"   Limit: ${card.credit_limit}")
         
         instance.save()
         return instance

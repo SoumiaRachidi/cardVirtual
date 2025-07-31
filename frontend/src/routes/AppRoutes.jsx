@@ -11,6 +11,7 @@ import UserDashboard from '../pages/UserDashboard';
 import AdminDashboard from '../pages/AdminDashboard';
 import AddCard from '../pages/AddCard';
 import CardManagement from '../pages/CardManagement';
+import GeneratedCards from '../pages/GeneratedCards';
 
 const AppRoutes = () => {
     return (
@@ -79,6 +80,14 @@ const AppRoutes = () => {
                             element={
                                 <AdminRoute>
                                     <CardManagement />
+                                </AdminRoute>
+                            }
+                        />
+                        <Route
+                            path="/generated-cards"
+                            element={
+                                <AdminRoute>
+                                    <GeneratedCards />
                                 </AdminRoute>
                             }
                         />

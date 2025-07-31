@@ -214,6 +214,10 @@ const AdminDashboard = () => {
         navigate('/card-management');
     };
 
+    const handleViewGeneratedCards = () => {
+        navigate('/generated-cards');
+    };
+
     useEffect(() => {
         fetchUsers();
 
@@ -330,6 +334,9 @@ const AdminDashboard = () => {
                             </button>
                             <button className="admin-button" onClick={handleManageCards}>
                                 💳 Manage Cards
+                            </button>
+                            <button className="admin-button" onClick={handleViewGeneratedCards}>
+                                🎯 Generated Cards
                             </button>
                             <button className="admin-button primary" onClick={handleAddUser}>Add User</button>
                             <button className="admin-button primary" onClick={handleAddCard}>Add Card</button>

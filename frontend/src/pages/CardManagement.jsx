@@ -169,11 +169,39 @@ const CardManagement = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
+            const updatedRequest = await response.json();
+            console.log('Updated request:', updatedRequest);
+
+            // Si une carte a été générée lors de l'approbation
+            if (status === 'approved' && updatedRequest.approved_card) {
+                // Récupérer les détails de la carte générée
+                const cardResponse = await fetch(`http://localhost:8000/api/cards/admin/cards/`, {
+                    headers: {
+                        'Authorization': `Token ${token}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (cardResponse.ok) {
+                    const cardsData = await cardResponse.json();
+                    const generatedCard = cardsData.find(card => card.id === updatedRequest.approved_card);
+
+                    if (generatedCard) {
+                        alert(`✅ Demande approuvée avec succès!\n\n🎉 Carte virtuelle générée:\n` +
+                            `💳 Numéro: ${generatedCard.masked_numero}\n` +
+                            `🏷️ Catégorie: ${generatedCard.card_category.toUpperCase()}\n` +
+                            `📅 Expiration: ${new Date(generatedCard.dateExpiration).toLocaleDateString()}\n` +
+                            `💰 Limite: $${generatedCard.credit_limit}`);
+                    }
+                }
+            } else {
+                alert(`Demande ${status === 'approved' ? 'approuvée' : 'rejetée'} avec succès!`);
+            }
+
             // Recharger les données après mise à jour
             await fetchCardRequests();
             setShowModal(false);
             setSelectedRequest(null);
-            alert(`Demande ${status === 'approved' ? 'approuvée' : 'rejetée'} avec succès!`);
         } catch (error) {
             console.error(`Error ${status}ing request:`, error);
             setError(`Échec lors du ${status === 'approved' ? 'approbation' : 'rejet'} de la demande: ${error.message}`);
