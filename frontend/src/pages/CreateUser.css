@@ -1,0 +1,202 @@
+.create-user {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e2deda 0%, #a69d97 100%);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-user-container {
+    width: 100%;
+    max-width: 800px;
+}
+
+.create-user-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2deda;
+}
+
+.create-user-title {
+    color: #74645c;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.back-button {
+    background-color: #a69d97;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.back-button:hover {
+    background-color: #8a8179;
+    transform: translateY(-2px);
+}
+
+.create-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    color: #74645c;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 2px solid #e2deda;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: #fafafa;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #fbd424;
+    background-color: white;
+}
+
+.form-group input::placeholder {
+    color: #a69d97;
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+.create-user-button {
+    background-color: #fbd424;
+    color: #74645c;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.create-user-button:hover:not(:disabled) {
+    background-color: #e2c020;
+    transform: translateY(-2px);
+}
+
+.create-user-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2deda;
+}
+
+.form-footer p {
+    color: #a69d97;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Form validation styles */
+.form-group input:invalid {
+    border-color: #dc3545;
+}
+
+.form-group input:valid {
+    border-color: #28a745;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .create-user {
+        padding: 1rem;
+    }
+
+    .create-user-card {
+        padding: 2rem;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .create-user-title {
+        font-size: 1.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .back-button {
+        align-self: center;
+        width: fit-content;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-user-card {
+        padding: 1.5rem;
+    }
+
+    .create-user-title {
+        font-size: 1.3rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .create-user-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}

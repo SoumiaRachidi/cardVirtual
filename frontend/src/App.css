@@ -1,0 +1,54 @@
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+  color: #74645c;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Color Variables for reference */
+:root {
+  --color-primary: #fbd424;
+  --color-secondary: #e2deda;
+  --color-dark: #74645c;
+  --color-medium: #a69d97;
+  --color-light: #f8f9fa;
+  --color-white: #ffffff;
+}
+
+/* Remove default button and link styles */
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #fbd424;
+  outline-offset: 2px;
+}

@@ -1,0 +1,135 @@
+/* Styles pour les composants de protection des routes */
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e2deda;
+    border-top: 4px solid #fbd424;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner p {
+    color: #74645c;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 500;
+}
+
+.access-denied-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fbd424 0%, #e2deda 100%);
+    padding: 2rem;
+}
+
+.access-denied-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+.access-denied-content h1 {
+    color: #74645c;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.access-denied-content p {
+    color: #a69d97;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.redirect-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-primary {
+    background-color: #fbd424;
+    color: #74645c;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #e2c020;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 212, 36, 0.4);
+}
+
+.btn-secondary {
+    background-color: #e2deda;
+    color: #74645c;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background-color: #d5cfc9;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .access-denied-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .access-denied-content h1 {
+        font-size: 2rem;
+    }
+
+    .redirect-links {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,54 @@
+/* Styles pour le composant UserInfo */
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #74645c;
+    font-size: 0.9rem;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: #a69d97;
+    font-weight: 500;
+}
+
+.logout-btn {
+    background-color: #74645c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #5d524a;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .user-details {
+        align-items: flex-start;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+}
