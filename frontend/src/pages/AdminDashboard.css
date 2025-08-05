@@ -18,6 +18,12 @@
     align-items: center;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .dashboard-header h1 {
     color: #74645c;
     font-size: 2rem;

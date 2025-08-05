@@ -99,7 +99,7 @@ const CardManagement = () => {
 
         // 3. Vérifier qu'il n'y a pas déjà une demande en attente pour le même type
         const pendingRequestsOfSameType = cardRequests.filter(r =>
-            r.user?.id === request.user?.id &&
+            r.user_details?.id === request.user_details?.id &&
             r.card_type === request.card_type &&
             r.status === 'pending' &&
             r.id !== request.id
@@ -320,8 +320,8 @@ const CardManagement = () => {
                         <div key={request.id} className={`request-card ${request.status}`}>
                             <div className="request-header">
                                 <div className="user-name">
-                                    <h3>{request.user?.first_name || 'Unknown'} {request.user?.last_name || 'User'}</h3>
-                                    <p className="user-email">{request.user?.email || 'No email'}</p>
+                                    <h3>{request.user_details?.first_name || 'Unknown'} {request.user_details?.last_name || 'User'}</h3>
+                                    <p className="user-email">{request.user_details?.email || 'No email'}</p>
                                 </div>
                                 <span style={getStatusBadgeStyle(request.status)}>
                                     {request.status}
@@ -393,8 +393,8 @@ const CardManagement = () => {
                         <div className="modal-body">
                             <div className="user-info">
                                 <h3>User Information</h3>
-                                <p><strong>Name:</strong> {selectedRequest.user?.first_name} {selectedRequest.user?.last_name}</p>
-                                <p><strong>Email:</strong> {selectedRequest.user?.email}</p>
+                                <p><strong>Name:</strong> {selectedRequest.user_details?.first_name} {selectedRequest.user_details?.last_name}</p>
+                                <p><strong>Email:</strong> {selectedRequest.user_details?.email}</p>
                                 <p><strong>Phone:</strong> {selectedRequest.phone_number}</p>
                                 <p><strong>Date of Birth:</strong> {selectedRequest.date_of_birth}</p>
                                 <p><strong>Profession:</strong> {selectedRequest.profession}</p>

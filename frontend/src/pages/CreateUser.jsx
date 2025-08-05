@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './CreateUser.css';
 
 const CreateUser = () => {
+    const { token } = useAuth();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -61,9 +63,10 @@ const CreateUser = () => {
 
             console.log('Sending data to server:', requestData);
 
-            const response = await fetch('http://localhost:8000/api/users/register/', {
+            const response = await fetch('http://localhost:8000/api/users/admin/users/', {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Token ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(requestData)

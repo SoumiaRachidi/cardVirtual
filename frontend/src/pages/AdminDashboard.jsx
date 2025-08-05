@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
+import NotificationBadge from '../components/NotificationBadge';
+import UserDetailsModal from '../components/UserDetailsModal';
+import EditUserModal from '../components/EditUserModal';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -16,6 +20,9 @@ const AdminDashboard = () => {
         activeUsers: 0,
         totalBalance: 0
     });
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     // Fetch users from backend
     const fetchUsers = async () => {
@@ -100,15 +107,14 @@ const AdminDashboard = () => {
 
     // View user details
     const handleViewUser = (user) => {
-        alert(`User Details:\n\nName: ${user.full_name || `${user.first_name} ${user.last_name}`}\nEmail: ${user.email}\nPhone: ${user.phone_number || 'N/A'}\nUser Type: ${user.user_type}\nStatus: ${user.status}\nCards: ${user.total_cards || 0}\nBalance: $${user.total_balance || '0.00'}\nJoined: ${new Date(user.date_created).toLocaleDateString()}`);
+        setSelectedUser(user);
+        setIsUserModalOpen(true);
     };
 
     // Edit user (placeholder - could navigate to edit form)
     const handleEditUser = (user) => {
-        const newStatus = user.status === 'active' ? 'inactive' : 'active';
-        if (window.confirm(`Change ${user.full_name || user.username}'s status from ${user.status} to ${newStatus}?`)) {
-            updateUserStatus(user.id, newStatus);
-        }
+        setSelectedUser(user);
+        setIsEditModalOpen(true);
     };
 
     // Update user status
@@ -133,6 +139,34 @@ const AdminDashboard = () => {
         } catch (error) {
             console.error('Error updating user:', error);
             alert('Error updating user status');
+        }
+    };
+
+    // Save edited user data
+    const handleSaveUser = async (userId, userData) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8000/api/users/admin/users/${userId}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': token ? `Token ${token}` : '',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                alert('User updated successfully!');
+                setIsEditModalOpen(false);
+                setSelectedUser(null);
+                fetchUsers(); // Refresh the list
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to update user: ${errorData.detail || 'Unknown error'}`);
+            }
+        } catch (error) {
+            console.error('Error updating user:', error);
+            alert('Error updating user');
         }
     };
 
@@ -205,11 +239,6 @@ const AdminDashboard = () => {
         navigate('/create-user');
     };
 
-    const handleAddCard = () => {
-        console.log('Add Card button clicked, navigating to /add-card');
-        navigate('/add-card');
-    };
-
     const handleManageCards = () => {
         navigate('/card-management');
     };
@@ -265,9 +294,12 @@ const AdminDashboard = () => {
             <div className="dashboard-header">
                 <div className="header-content">
                     <h1>Admin Dashboard</h1>
-                    <button className="logout-button" onClick={handleLogout}>
-                        Logout
-                    </button>
+                    <div className="header-actions">
+                        <NotificationBadge />
+                        <button className="logout-button" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -339,7 +371,6 @@ const AdminDashboard = () => {
                                 🎯 Generated Cards
                             </button>
                             <button className="admin-button primary" onClick={handleAddUser}>Add User</button>
-                            <button className="admin-button primary" onClick={handleAddCard}>Add Card</button>
                         </div>
                     </div>
 
@@ -408,6 +439,21 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
+
+            {/* User Details Modal */}
+            <UserDetailsModal
+                user={selectedUser}
+                isOpen={isUserModalOpen}
+                onClose={() => setIsUserModalOpen(false)}
+            />
+
+            {/* Edit User Modal */}
+            <EditUserModal
+                user={selectedUser}
+                isOpen={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                onSave={handleSaveUser}
+            />
         </div>
     );
 };

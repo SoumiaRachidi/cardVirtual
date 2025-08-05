@@ -49,17 +49,32 @@ class CardDetailView(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes([IsOwnerOrAdmin])
 def activate_card(request, card_id):
     """Activate a card"""
-    card = get_object_or_404(CarteVirtuelle, id=card_id, utilisateur=request.user)
-    
-    if card.activerCarte():
+    try:
+        card = get_object_or_404(CarteVirtuelle, id=card_id, utilisateur=request.user)
+        
+        if card.activerCarte():
+            return Response({
+                'message': 'Card activated successfully',
+                'card': CarteVirtuelleSerializer(card).data
+            })
+        else:
+            # Provide specific error message based on card status
+            status_messages = {
+                'active': 'Card is already active',
+                'expired': 'Cannot activate an expired card',
+                'deleted': 'Cannot activate a deleted card'
+            }
+            error_message = status_messages.get(card.status, f'Card cannot be activated. Current status: {card.status}')
+            
+            return Response({
+                'error': error_message,
+                'card_status': card.status
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+    except Exception as e:
         return Response({
-            'message': 'Card activated successfully',
-            'card': CarteVirtuelleSerializer(card).data
-        })
-    else:
-        return Response({
-            'error': 'Card cannot be activated'
-        }, status=status.HTTP_400_BAD_REQUEST)
+            'error': f'Error activating card: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 @permission_classes([IsOwnerOrAdmin])

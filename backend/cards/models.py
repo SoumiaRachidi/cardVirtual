@@ -177,7 +177,7 @@ class CarteVirtuelle(models.Model):
     # Methods from UML
     def activerCarte(self):
         """Activate the card"""
-        if self.status == 'pending':
+        if self.status in ['pending', 'blocked']:
             self.status = 'active'
             self.save()
             return True

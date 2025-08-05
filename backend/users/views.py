@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
 from .models import CustomUser, UserActivity
 from .serializers import (
@@ -171,9 +172,16 @@ class AdminUserListView(generics.ListCreateAPIView):
     Admin view to list and create users
     """
     queryset = CustomUser.objects.all()
-    serializer_class = AdminUserSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
+
+    def get_serializer_class(self):
+        """
+        Use different serializers for list and create operations
+        """
+        if self.request.method == 'POST':
+            return UserRegistrationSerializer
+        return AdminUserSerializer
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -181,6 +189,12 @@ class AdminUserListView(generics.ListCreateAPIView):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        # Only allow admin users to create users
+        if not self.request.user.is_admin:
+            raise PermissionDenied("Only admin users can create new users")
+        serializer.save()
 
     def get_queryset(self):
         # Only allow admin users to access this view
